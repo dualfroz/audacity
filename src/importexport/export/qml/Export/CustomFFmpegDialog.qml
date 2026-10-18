@@ -156,7 +156,10 @@ StyledDialogView {
                 buttonRole: ButtonBoxModel.RejectRole
                 buttonId: ButtonBoxModel.Cancel
 
-                onClicked: root.reject()
+                onClicked: {
+                    ffmpegPrefModel.cancel()
+                    root.reject()
+                }
             }
 
             FlatButton {

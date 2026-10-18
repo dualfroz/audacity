@@ -71,6 +71,7 @@ public:
     explicit CustomFFmpegPreferencesModel(QObject* parent = nullptr);
 
     Q_INVOKABLE void init();
+    Q_INVOKABLE void cancel();
 
     QString ffmpegVersion() const;
     QString ffmpegLibraryPath() const;
@@ -183,5 +184,33 @@ signals:
     void useLpcChanged();
     void muxRateChanged();
     void packetSizeChanged();
+
+private:
+    struct FFmpegOptions {
+        std::string format;
+        std::string codec;
+        std::string language;
+        std::string tag;
+        int quality;
+        int cutoff;
+        int bitrate;
+        int sampleRate;
+        std::string profile;
+        bool bitReservoir;
+        bool vbl;
+        int compression;
+        int lpcCoeffPrecision;
+        int frameSize;
+        int predictionOrderMethod;
+        int minPredictionOrder;
+        int maxPredictionOrder;
+        int minPartitionOrder;
+        int maxPartitionOrder;
+        bool useLpc;
+        int muxRate;
+        int packetSize;
+    };
+
+    FFmpegOptions m_initialOptions;
 };
 }

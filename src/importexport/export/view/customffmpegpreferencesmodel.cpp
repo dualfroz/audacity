@@ -16,6 +16,29 @@ CustomFFmpegPreferencesModel::CustomFFmpegPreferencesModel(QObject* parent)
 
 void CustomFFmpegPreferencesModel::init()
 {
+    m_initialOptions.format = exportConfiguration()->ffmpegFormat();
+    m_initialOptions.codec = exportConfiguration()->ffmpegCodec();
+    m_initialOptions.language = exportConfiguration()->ffmpegLanguage();
+    m_initialOptions.tag = exportConfiguration()->ffmpegTag();
+    m_initialOptions.quality = exportConfiguration()->ffmpegQuality();
+    m_initialOptions.cutoff = exportConfiguration()->ffmpegCutoff();
+    m_initialOptions.bitrate = exportConfiguration()->ffmpegBitrate();
+    m_initialOptions.sampleRate = exportConfiguration()->ffmpegSampleRate();
+    m_initialOptions.profile = exportConfiguration()->ffmpegProfile();
+    m_initialOptions.bitReservoir = exportConfiguration()->ffmpegBitReservoir();
+    m_initialOptions.vbl = exportConfiguration()->ffmpegVbl();
+    m_initialOptions.compression = exportConfiguration()->ffmpegCompression();
+    m_initialOptions.lpcCoeffPrecision = exportConfiguration()->ffmpegLpcCoeffPrecision();
+    m_initialOptions.frameSize = exportConfiguration()->ffmpegFrameSize();
+    m_initialOptions.predictionOrderMethod = exportConfiguration()->ffmpegPredictionOrderMethod();
+    m_initialOptions.minPredictionOrder = exportConfiguration()->ffmpegMinPredictionOrder();
+    m_initialOptions.maxPredictionOrder = exportConfiguration()->ffmpegMaxPredictionOrder();
+    m_initialOptions.minPartitionOrder = exportConfiguration()->ffmpegMinPartitionOrder();
+    m_initialOptions.maxPartitionOrder = exportConfiguration()->ffmpegMaxPartitionOrder();
+    m_initialOptions.useLpc = exportConfiguration()->ffmpegUseLpc();
+    m_initialOptions.muxRate = exportConfiguration()->ffmpegMuxRate();
+    m_initialOptions.packetSize = exportConfiguration()->ffmpegPacketSize();
+
     exportConfiguration()->ffmpegFormatChanged().onNotify(this, [this] {
         emit ffmpegFormatChanged();
     });
@@ -103,6 +126,36 @@ void CustomFFmpegPreferencesModel::init()
     exportConfiguration()->ffmpegPacketSizeChanged().onNotify(this, [this] {
         emit packetSizeChanged();
     });
+}
+
+void CustomFFmpegPreferencesModel::cancel()
+{
+    //! NOTE: the format and codec lists may be filtered by the discarded selection
+    fetchAllFormats();
+    fetchAllCodecs();
+
+    exportConfiguration()->setFFmpegFormat(m_initialOptions.format);
+    exportConfiguration()->setFFmpegCodec(m_initialOptions.codec);
+    exportConfiguration()->setFFmpegLanguage(m_initialOptions.language);
+    exportConfiguration()->setFFmpegTag(m_initialOptions.tag);
+    exportConfiguration()->setFFmpegQuality(m_initialOptions.quality);
+    exportConfiguration()->setFFmpegCutoff(m_initialOptions.cutoff);
+    exportConfiguration()->setFFmpegBitrate(m_initialOptions.bitrate);
+    exportConfiguration()->setFFmpegSampleRate(m_initialOptions.sampleRate);
+    exportConfiguration()->setFFmpegProfile(m_initialOptions.profile);
+    exportConfiguration()->setFFmpegBitReservoir(m_initialOptions.bitReservoir);
+    exportConfiguration()->setFFmpegVbl(m_initialOptions.vbl);
+    exportConfiguration()->setFFmpegCompression(m_initialOptions.compression);
+    exportConfiguration()->setFFmpegLpcCoeffPrecision(m_initialOptions.lpcCoeffPrecision);
+    exportConfiguration()->setFFmpegFrameSize(m_initialOptions.frameSize);
+    exportConfiguration()->setFFmpegPredictionOrderMethod(m_initialOptions.predictionOrderMethod);
+    exportConfiguration()->setFFmpegMinPredictionOrder(m_initialOptions.minPredictionOrder);
+    exportConfiguration()->setFFmpegMaxPredictionOrder(m_initialOptions.maxPredictionOrder);
+    exportConfiguration()->setFFmpegMinPartitionOrder(m_initialOptions.minPartitionOrder);
+    exportConfiguration()->setFFmpegMaxPartitionOrder(m_initialOptions.maxPartitionOrder);
+    exportConfiguration()->setFFmpegUseLpc(m_initialOptions.useLpc);
+    exportConfiguration()->setFFmpegMuxRate(m_initialOptions.muxRate);
+    exportConfiguration()->setFFmpegPacketSize(m_initialOptions.packetSize);
 }
 
 QString CustomFFmpegPreferencesModel::ffmpegVersion() const
